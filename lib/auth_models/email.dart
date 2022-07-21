@@ -1,0 +1,27 @@
+import 'package:formz/formz.dart';
+
+enum EmailValidationError { invalid }
+
+class Email extends FormzInput<String, EmailValidationError> {
+  const Email.pure() : super.pure('');
+  const Email.dirty([String value = '']) : super.dirty(value);
+
+  static final RegExp _emailRegExp = RegExp('@'
+  );
+
+  @override
+  EmailValidationError validator(String value) {
+    return _emailRegExp.hasMatch(value) ? null : EmailValidationError.invalid;
+  }
+}
+
+extension Explanation on EmailValidationError {
+  String get name {
+    switch(this) {
+      case EmailValidationError.invalid:
+        return "This is not a valid email";
+      default:
+        return null;
+    }
+  }
+}
